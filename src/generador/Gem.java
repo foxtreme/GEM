@@ -1,12 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * tomado de https://www.seas.gwu.edu/~drum/java/lectures/appendix/examples/uniform_random.java
  */
 package generador;
 
 import static java.lang.Math.*;
-
 
 /**
  *
@@ -14,29 +11,35 @@ import static java.lang.Math.*;
  */
 public class Gem {
 
-    double a, c, m,seed;
-    
-        
+    static final long m = 2147483647L;
+    static final long a = 48271L;
+    static final long q = 44488L;
+    static final long r = 3399L;
 
-    /**
-     * inicializa el gem con los valores propuestos por Park y Miller
-     */
-    public Gem(double seed) {
-        //valores propuestos por Park y Miller
-        this.a = 16807;
-        this.c = 0;
-        this.m = 2147483641;
-        this.seed = seed;
+    // variable global, inicializar la semilla con algun valor
+    // valor arbitrario diferente de 0
+    static long r_seed = 12345678L;
+
+    //generador entre 0,1
+    public static double generarAleatorio() {
+        //esto se hace para trucar el overflow de multiplicar numeros tan grandes
+        long hi = r_seed / q;
+        long lo = r_seed - q * hi;
+        long t = a * lo - r * hi;
+        if (t > 0) {
+            r_seed = t;
+        } else {
+            r_seed = t + m;
+        }
+        return ((double) r_seed / (double) m);
     }
-    
-    public double generarNumeroAleatorio(double xn){
-        double num = (((this.a*xn)+this.c)%this.m);
-        System.out.println(num);
-        return num;
-    }
-    
-    public static void main(String args[]){
-        Gem g = new Gem(3);
-        g.generarNumeroAleatorio(g.seed);
+
+    public static void main(String[] argv) {
+        //generando 10000 numeros aleatorios
+        double num=0;
+        for (int i = 1; i <= 10000; i++) {
+            num= generarAleatorio();
+            System.out.println("numero_"+i+": " + num);
+        }
     }
 }
