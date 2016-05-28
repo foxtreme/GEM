@@ -4,6 +4,8 @@
 package generador;
 
 import static java.lang.Math.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -20,8 +22,10 @@ public class Gem {
     // valor arbitrario diferente de 0
     static long r_seed = 12345678L;
 
+    public Gem(){}
+    
     //generador entre 0,1
-    public static double generarAleatorio() {
+    public double generarAleatorio() {
         //esto se hace para trucar el overflow de multiplicar numeros tan grandes
         long hi = r_seed / q;
         long lo = r_seed - q * hi;
@@ -33,13 +37,33 @@ public class Gem {
         }
         return ((double) r_seed / (double) m);
     }
+    
+    /**
+     * Distribucion Normal N(10,2)
+     * @param ri numero aleatorio N()
+     * @return 
+     */
+    public List<Double> convolucion(int cant){
+        List<Double> numerosConvolucion = new ArrayList<Double>();
+        double sum;
+        for(int i=0;i<cant;i++){
+            sum=0;
+            for(int j=0;j<12;j++){
+                sum = sum+generarAleatorio();
+            }
+            sum=sum-6;
+            numerosConvolucion.add(sum);
+            System.out.println("numero_"+i+": "+numerosConvolucion.get(i));
+        }
+        return numerosConvolucion;
+        
+    }
+    
 
-    public static void main(String[] argv) {
+    public static void main(String[] args) {
         //generando 10000 numeros aleatorios
         double num=0;
-        for (int i = 1; i <= 10000; i++) {
-            num= generarAleatorio();
-            System.out.println("numero_"+i+": " + num);
-        }
+        Gem gem = new Gem();
+        gem.convolucion(1000);
     }
 }
