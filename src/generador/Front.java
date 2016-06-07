@@ -18,12 +18,15 @@ public class Front extends javax.swing.JFrame {
     public static Graficas grafica;
     public static double[][] a;
     
+    
     public Front() {
         initComponents();
         
+        double data[]= {1,2,3,4,5,7,84,4,745,5};
         grafica = new Graficas(Graficas.LINEAL,"Gráfica - Tabla de calibración","Vertimientos","Valor ADC");
         
-        grafica.cargarGrafica("GEM 1", a[0], a[1]);
+        //grafica.cargarGrafica("GEM 1", a[0], a[1]);
+        grafica.cargarHistograma("GEM 1",data,10);
  
         //visualizar ChartPanel en JFrame
         panelGEM1.setLayout(new java.awt.BorderLayout());
