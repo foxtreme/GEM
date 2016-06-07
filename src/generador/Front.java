@@ -5,9 +5,17 @@
  */
 package generador;
 
-import core.Graficas;
 import java.awt.BorderLayout;
+import java.util.Random;
+import javax.swing.JPanel;
+import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYBarRenderer;
+import org.jfree.data.statistics.HistogramDataset;
+import org.jfree.data.xy.IntervalXYDataset;
 
 /**
  *
@@ -15,28 +23,31 @@ import org.jfree.chart.ChartPanel;
  */
 public class Front extends javax.swing.JFrame {
 
-    public static Graficas grafica;
-    public static double[][] a;
     
-    
+    public static double a[];
+    public static double b[];
+    Gem gem = new Gem();
+    Random rnd = new Random();
+
     public Front() {
         initComponents();
+
+        panelGEM1.setPreferredSize(new java.awt.Dimension(385, 300));
+        panelGEM2.setPreferredSize(new java.awt.Dimension(385, 300));
         
-        double data[]= {1,2,3,4,5,7,84,4,745,5};
-        grafica = new Graficas(Graficas.LINEAL,"Gráfica - Tabla de calibración","Vertimientos","Valor ADC");
-        
-        //grafica.cargarGrafica("GEM 1", a[0], a[1]);
-        grafica.cargarHistograma("GEM 1",data,10);
- 
-        //visualizar ChartPanel en JFrame
         panelGEM1.setLayout(new java.awt.BorderLayout());
- 
-        ChartPanel CP = new ChartPanel(grafica.getGrafica());
+        panelGEM2.setLayout(new java.awt.BorderLayout());
         
-        panelGEM1.add(CP,BorderLayout.CENTER);
+        a = gem.NAleatorios(1000);//Gem propio
+        b = NAleatorios(1000);//Gem java.util.Random; http://www.aprenderaprogramar.es/index.php?option=com_content&view=article&id=240:generacion-de-numeros-aleatorios-en-java-rangos-clase-random-ejemplos-ejercicios-resueltos-cu00906c&catid=58:curso-lenguaje-programacion-java-nivel-avanzado-i&Itemid=180
+
+        panelGEM1.add(crearPanel("GEM propio ",a,10), BorderLayout.CENTER);
         panelGEM1.validate();
         
-        
+        panelGEM2.add(crearPanel("GEM de Java ",b,10), BorderLayout.CENTER);
+        panelGEM2.validate();
+        this.pack();
+
     }
 
     /**
@@ -53,11 +64,13 @@ public class Front extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        panelGEM1.setPreferredSize(new java.awt.Dimension(385, 300));
+
         javax.swing.GroupLayout panelGEM1Layout = new javax.swing.GroupLayout(panelGEM1);
         panelGEM1.setLayout(panelGEM1Layout);
         panelGEM1Layout.setHorizontalGroup(
             panelGEM1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 386, Short.MAX_VALUE)
+            .addGap(0, 385, Short.MAX_VALUE)
         );
         panelGEM1Layout.setVerticalGroup(
             panelGEM1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -68,7 +81,7 @@ public class Front extends javax.swing.JFrame {
         panelGEM2.setLayout(panelGEM2Layout);
         panelGEM2Layout.setHorizontalGroup(
             panelGEM2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 384, Short.MAX_VALUE)
+            .addGap(0, 385, Short.MAX_VALUE)
         );
         panelGEM2Layout.setVerticalGroup(
             panelGEM2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,6 +110,7 @@ public class Front extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**
@@ -134,6 +148,45 @@ public class Front extends javax.swing.JFrame {
         });
     }
 
+    private static IntervalXYDataset crearDataset(String titulo,double data[],int clases) {
+        HistogramDataset dataset = new HistogramDataset();
+        dataset.addSeries(titulo, data, clases);
+        return dataset;
+    }
+
+    private static JFreeChart crearChart(IntervalXYDataset dataset) {
+        JFreeChart chart = ChartFactory.createHistogram(
+                "Histograma",
+                null,
+                null,
+                dataset,
+                PlotOrientation.VERTICAL,
+                true,
+                true,
+                false
+        );
+        XYPlot plot = (XYPlot) chart.getPlot();
+        XYBarRenderer renderer = (XYBarRenderer) plot.getRenderer();
+        renderer.setDrawBarOutline(false);
+
+        return chart;
+    }
+
+    public static JPanel crearPanel(String titulo,double data[],int clases) {
+        JFreeChart chart = crearChart(crearDataset(titulo,data,clases));
+        return new ChartPanel(chart);
+    }
+    
+    public double[] NAleatorios(int cantidad){
+        double data[] = new double[cantidad];
+        double num=0;
+        for(int i=0; i<cantidad;i++){
+            num = rnd.nextDouble();
+            data[i] = num;
+        }
+        return data;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel panelGEM1;
     private javax.swing.JPanel panelGEM2;

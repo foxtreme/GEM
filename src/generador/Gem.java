@@ -316,6 +316,16 @@ public class Gem {
         }
         return newList;
     }
+    
+    public double[] NAleatorios(int cantidad){
+        double data[] = new double[cantidad];
+        double num=0;
+        for(int i=0; i<cantidad;i++){
+            num =generarAleatorio();
+            data[i] = num;
+        }
+        return data;
+    }
 
     public static void main(String[] args) throws IOException {
                
