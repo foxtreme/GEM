@@ -92,25 +92,23 @@ public class Gem {
         System.out.println("cantidad de datos: "+cant);
         List<Integer> numerosPoisson = new ArrayList<Integer>();
         double expo = 0, tiempo = 0, ri;
-        int numPoisson = 0;
-        String strPoisson = "";
+        int numPoisson = 0, count=0;
         System.out.println("\tri\t\t tiempo_entre_llegadas\t\t tiempo_de_llegada\t\t\t n(Poisson)");
         //crea los numeros en distribucion exponencial
         for (int i = 0; i < cant; i++) {
             ri = generarAleatorio();
             expo = (1 / 0.35) * (-1) * Math.log(ri);
             tiempo = tiempo + expo;
-            if (tiempo < 1) {
-                numPoisson++;
-                strPoisson = "" + numPoisson;
-                System.out.println(ri + "\t" + expo + "\t\t\t" + tiempo + "\t\t\t" + strPoisson);
-            } else {
+            if(tiempo>=1) {
                 numerosPoisson.add(numPoisson);
+                System.out.println(ri + "\t" + expo + "\t\t\t" + tiempo + "\t\t\t" + numPoisson);
                 numPoisson = 0;
-                strPoisson = "0";
-                System.out.println(ri + "\t" + expo + "\t\t\t" + tiempo + "\t\t\t" + strPoisson);
                 tiempo = 0;
             }
+            else {
+                numPoisson++;
+                System.out.println(ri + "\t" + expo + "\t\t\t" + tiempo + "\t\t\t");
+            } 
         }
         return numerosPoisson;
     }
@@ -312,6 +310,7 @@ public class Gem {
         otherSymbols.setGroupingSeparator('.');
         DecimalFormat decimal = new DecimalFormat(decimales, otherSymbols);
         decimal.setRoundingMode(RoundingMode.UP);
+        //genera la lista de numeros formateados
         for (int i = 0; i < lista.size(); i++) {
             newList.add(Double.parseDouble(decimal.format(lista.get(i))));
         }
@@ -327,21 +326,23 @@ public class Gem {
         //gem.convolucion(1000);
         //gem.convolucion(10000);
         //trabajo con otras distribuciones - binomial
-        gem.binomial(1000);
-        List<Double> num10000 = gem.generarLista();
-        List<Double> num1000 = num10000.subList(0, 1000);
+        //gem.binomial(1000);
+        //trabajo con otras distribuciones - poisson
+        gem.poisson(1000);
+        //List<Double> num10000 = gem.generarLista();
+        //List<Double> num1000 = num10000.subList(0, 1000);
         /*
         Pruebas de bondad 1000 numeros
         */
-        System.out.println(gem.pruebachi2(num1000));
-        System.out.println(gem.poker2(num1000));
-        System.out.println(gem.poker3(num1000));
+        //System.out.println(gem.pruebachi2(num1000));
+        //System.out.println(gem.poker2(num1000));
+        //System.out.println(gem.poker3(num1000));
         /*
         Pruebas de bondad 10000 numeros
         */
-        System.out.println(gem.pruebachi2(num10000));
-        System.out.println(gem.poker2(num10000));
-        System.out.println(gem.poker3(num10000));
+        //System.out.println(gem.pruebachi2(num10000));
+        //System.out.println(gem.poker2(num10000));
+        //System.out.println(gem.poker3(num10000));
     }
 
 }
