@@ -38,7 +38,7 @@ public class Front extends javax.swing.JFrame {
         panelGEM1.setLayout(new java.awt.BorderLayout());
         panelGEM2.setLayout(new java.awt.BorderLayout());
         
-        a = gem.NAleatorios(1000);//Gem propio
+        a = gem.NAleatorios(1000,1);//Gem propio
         b = NAleatorios(1000);
 
         panelGEM1.add(crearPanel("GEM propio ",a,10), BorderLayout.CENTER);
