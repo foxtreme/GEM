@@ -62,6 +62,8 @@ public class Gem {
      * @return
      */
     public List<Double> convolucion(int cant) {
+        System.out.println("--------Convolucion----------");
+        System.out.println("cantidad de datos: "+cant);
         List<Double> numerosConvolucion = new ArrayList<Double>();
         double sum;
         for (int i = 0; i < cant; i++) {
@@ -71,6 +73,7 @@ public class Gem {
             }
             sum = ((sum - 6) * 2) + 10;
             numerosConvolucion.add(sum);
+            System.out.println(""+sum);
         }
         return numerosConvolucion;
 
@@ -85,6 +88,8 @@ public class Gem {
      * @return Lista de numeros Poisson
      */
     public List<Integer> poisson(int cant) {
+        System.out.println("--------Poisson----------");
+        System.out.println("cantidad de datos: "+cant);
         List<Integer> numerosPoisson = new ArrayList<Integer>();
         double expo = 0, tiempo = 0, ri;
         int numPoisson = 0;
@@ -118,6 +123,8 @@ public class Gem {
      * distribucion binomial
      */
     public List<Integer> binomial(int cant) {
+        System.out.println("--------Binomial----------");
+        System.out.println("cantidad de datos: "+cant);
         int n = 100, numBinomial = 0, cantNumerosBinomial = cant / n;
         double p = 0.3;
         List<Integer> numerosBinomial = new ArrayList<Integer>();
@@ -126,8 +133,12 @@ public class Gem {
             System.out.println("-----------------------");
             for (int i = 0; i < n; i++) {
                 double ri = generarAleatorio();
-                System.out.print(ri + " , ");
+                
+                if(ri>p){//el numero es un fracaso
+                    System.out.print("0, ");
+                }
                 if (ri <= p) {//el numero es un exito
+                    System.out.print("1, ");
                     numBinomial++;
                     numerosBinomial.add(numBinomial);
                 }
@@ -308,9 +319,15 @@ public class Gem {
     }
 
     public static void main(String[] args) throws IOException {
+               
         //generando 10000 numeros aleatorios
         double num = 0;
         Gem gem = new Gem();
+        //trabajo con otras distribuciones - convolucion
+        //gem.convolucion(1000);
+        //gem.convolucion(10000);
+        //trabajo con otras distribuciones - binomial
+        gem.binomial(1000);
         List<Double> num10000 = gem.generarLista();
         List<Double> num1000 = num10000.subList(0, 1000);
         /*
