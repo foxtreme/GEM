@@ -18,7 +18,7 @@ import org.jfree.data.statistics.HistogramDataset;
 import org.jfree.data.xy.IntervalXYDataset;
 
 /**
- *
+ * Gem java.util.Random; http://www.aprenderaprogramar.es/index.php?option=com_content&view=article&id=240:generacion-de-numeros-aleatorios-en-java-rangos-clase-random-ejemplos-ejercicios-resueltos-cu00906c&catid=58:curso-lenguaje-programacion-java-nivel-avanzado-i&Itemid=180
  * @author root
  */
 public class Front extends javax.swing.JFrame {
@@ -39,7 +39,7 @@ public class Front extends javax.swing.JFrame {
         panelGEM2.setLayout(new java.awt.BorderLayout());
         
         a = gem.NAleatorios(1000);//Gem propio
-        b = NAleatorios(1000);//Gem java.util.Random; http://www.aprenderaprogramar.es/index.php?option=com_content&view=article&id=240:generacion-de-numeros-aleatorios-en-java-rangos-clase-random-ejemplos-ejercicios-resueltos-cu00906c&catid=58:curso-lenguaje-programacion-java-nivel-avanzado-i&Itemid=180
+        b = NAleatorios(1000);
 
         panelGEM1.add(crearPanel("GEM propio ",a,10), BorderLayout.CENTER);
         panelGEM1.validate();

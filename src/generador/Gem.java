@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 /**
  *
@@ -32,7 +33,12 @@ public class Gem {
 
     // variable global, inicializar la semilla con algun valor arbitrario diferente de 0
     static long r_seed = 12345678L;
+    Random rnd = new Random();
 
+    /**
+     *
+     * Constructor clase Gem
+     */
     public Gem() {
     }
 
@@ -40,19 +46,29 @@ public class Gem {
      * *
      * Generador de numeros pseudoaleatorios entre 0 y 1
      *
+     * @param generador ingresa 1 para usar el generador propio (GEM) y 0 para
+     * usar el generador de java
      * @return numero pseudoaleatorio
      */
-    public double generarAleatorio() {
-        //esto se hace para trucar el overflow de multiplicar numeros tan grandes
-        long hi = r_seed / q;
-        long lo = r_seed - q * hi;
-        long t = a * lo - r * hi;
-        if (t > 0) {
-            r_seed = t;
-        } else {
-            r_seed = t + m;
+    public double generarAleatorio(int generador) {
+        double numeroGenerado = 0.0;
+        if (generador == 1) {
+
+            //esto se hace para trucar el overflow de multiplicar numeros tan grandes
+            long hi = r_seed / q;
+            long lo = r_seed - q * hi;
+            long t = a * lo - r * hi;
+            if (t > 0) {
+                r_seed = t;
+            } else {
+                r_seed = t + m;
+            }
+            numeroGenerado = ((double) r_seed / (double) m);
         }
-        return ((double) r_seed / (double) m);
+        if (generador == 0) {
+            numeroGenerado = rnd.nextDouble();
+        }
+        return numeroGenerado;
     }
 
     /**
@@ -61,68 +77,67 @@ public class Gem {
      * @param ri numero aleatorio N()
      * @return
      */
-    public List<Double> convolucion(int cant) {
+    public List<Double> convolucion(int cant, int generador) {
         System.out.println("--------Convolucion----------");
-        System.out.println("cantidad de datos: "+cant);
+        System.out.println("cantidad de datos: " + cant);
         List<Double> numerosConvolucion = new ArrayList<Double>();
         double sum;
         for (int i = 0; i < cant; i++) {
             sum = 0;
             for (int j = 0; j < 12; j++) {
-                sum = sum + generarAleatorio();
+                sum = sum + generarAleatorio(generador);
             }
             sum = ((sum - 6) * 2) + 10;
             numerosConvolucion.add(sum);
-            System.out.println(""+sum);
+            System.out.println("" + sum);
         }
         return numerosConvolucion;
 
     }
 
     /**
-     * Genera una cantidad dada de numeros en distribucion de Poisson con
-     * landa = 0.35
+     * Genera una cantidad dada de numeros en distribucion de Poisson con landa
+     * = 0.35
      *
      * @param cant cantidad de numeros aleatorios a ser transformados a
      * distribucion poisson
      * @return Lista de numeros Poisson
      */
-    public List<Integer> poisson(int cant) {
+    public List<Integer> poisson(int cant,int generador) {
         System.out.println("--------Poisson----------");
-        System.out.println("cantidad de datos: "+cant);
+        System.out.println("cantidad de datos: " + cant);
         List<Integer> numerosPoisson = new ArrayList<Integer>();
         double expo = 0, tiempo = 0, ri;
-        int numPoisson = 0, count=0;
+        int numPoisson = 0, count = 0;
         System.out.println("\tri\t\t tiempo_entre_llegadas\t\t tiempo_de_llegada\t\t\t n(Poisson)");
         //crea los numeros en distribucion exponencial
         for (int i = 0; i < cant; i++) {
-            ri = generarAleatorio();
+            ri = generarAleatorio(generador);
             expo = (1 / 0.35) * (-1) * Math.log(ri);
             tiempo = tiempo + expo;
-            if(tiempo>=1) {
+            if (tiempo >= 1) {
                 numerosPoisson.add(numPoisson);
                 System.out.println(ri + "\t" + expo + "\t\t\t" + tiempo + "\t\t\t" + numPoisson);
                 numPoisson = 0;
                 tiempo = 0;
-            }
-            else {
+            } else {
                 numPoisson++;
                 System.out.println(ri + "\t" + expo + "\t\t\t" + tiempo + "\t\t\t");
-            } 
+            }
         }
         return numerosPoisson;
     }
 
     /**
-     * Genera una cantidad dada de numeros en distribucion binomial con
-     * p=0.3 y n=100
+     * Genera una cantidad dada de numeros en distribucion binomial con p=0.3 y
+     * n=100
      *
      * @param cant cantidad de numeros aleatorios a ser transformados a
      * distribucion binomial
      */
-    public List<Integer> binomial(int cant) {
+    public List<Integer> binomial(int cant, int generador) {
         System.out.println("--------Binomial----------");
-        System.out.println("cantidad de datos: "+cant);
+        System.out.println("cantidad de datos: " + cant);
         int n = 100, numBinomial = 0, cantNumerosBinomial = cant / n;
         double p = 0.3;
         List<Integer> numerosBinomial = new ArrayList<Integer>();
@@ -130,9 +145,9 @@ public class Gem {
             System.out.println("r1,r2...r100:");
             System.out.println("-----------------------");
             for (int i = 0; i < n; i++) {
-                double ri = generarAleatorio();
-                
-                if(ri>p){//el numero es un fracaso
+                double ri = generarAleatorio(generador);
+
+                if (ri > p) {//el numero es un fracaso
                     System.out.print("0, ");
                 }
                 if (ri <= p) {//el numero es un exito
@@ -155,8 +170,10 @@ public class Gem {
 
     /**
      * Aplica la prueba de chi cuadrado a una lista de numeros pseudoaleatorios
+     *
      * @param lista con los numeros pseudoaleatorios
-     * @return true si pasa la prueba y false si la lista de numeros es rechazada
+     * @return true si pasa la prueba y false si la lista de numeros es
+     * rechazada
      */
     public boolean pruebachi2(List<Double> lista) {
         System.out.println("----------Prueba Chi cuadrado----------");
@@ -191,7 +208,9 @@ public class Gem {
     }
 
     /**
-     * Aplica la prueba de poker con 3 decimales a una lista de numeros pseudoaleatorios
+     * Aplica la prueba de poker con 3 decimales a una lista de numeros
+     * pseudoaleatorios
+     *
      * @param lista con los numeros pseudoaleatorios
      * @return true si pasa la prueba, false si la lista de numeros es rechazada
      */
@@ -231,7 +250,9 @@ public class Gem {
     }
 
     /**
-     * Aplica la prueba de poker con 2 decimales a una lista de numeros pseudoaleatorios
+     * Aplica la prueba de poker con 2 decimales a una lista de numeros
+     * pseudoaleatorios
+     *
      * @param lista con los numeros pseudoaleatorios
      * @return true si pasa la prueba, false si la lista de numeros es rechazada
      */
@@ -241,7 +262,7 @@ public class Gem {
         System.out.println("Clase \t\t\t\t FO \t\t FE \t\t x2");
         int Iguales2 = 0;
         int Iguales0 = 0;
-        double chicrit =  2.7055;//de acuerdo a la tabla
+        double chicrit = 2.7055;//de acuerdo a la tabla
 
         for (Double number : listan) {
             double num = ceil(number * 100);
@@ -276,10 +297,11 @@ public class Gem {
 
     /**
      * Genera los archivos con los numeros pseudoaleatorios
+     *
      * @return los numeros generados en la lista
-     * @throws IOException 
+     * @throws IOException
      */
-    public List<Double> generarLista() throws IOException {
+    public List<Double> generarLista(int generador) throws IOException {
         List<Double> lines = new LinkedList<>();
         List<String> linesS = new LinkedList<>();
 
@@ -288,7 +310,7 @@ public class Gem {
                 Path file = Paths.get("GEM1000.txt");
                 Files.write(file, linesS, Charset.forName("UTF-8"));
             }
-            double num = generarAleatorio();
+            double num = generarAleatorio(generador);
             linesS.add(String.valueOf(num));
             lines.add(num);
         }
@@ -299,6 +321,7 @@ public class Gem {
 
     /**
      * Formatea los numeros a un determinado numero de decimales
+     *
      * @param lista lista de numeros pseudoaleatorios
      * @param decimales cantidad de decimales aceptados
      * @return Lista de numeros pseudoaleatorios formateados
@@ -316,19 +339,19 @@ public class Gem {
         }
         return newList;
     }
-    
-    public double[] NAleatorios(int cantidad){
+
+    public double[] NAleatorios(int cantidad, int generador) {
         double data[] = new double[cantidad];
-        double num=0;
-        for(int i=0; i<cantidad;i++){
-            num =generarAleatorio();
+        double num = 0;
+        for (int i = 0; i < cantidad; i++) {
+            num = generarAleatorio(generador);
             data[i] = num;
         }
         return data;
     }
 
     public static void main(String[] args) throws IOException {
-               
+
         //generando 10000 numeros aleatorios
         double num = 0;
         Gem gem = new Gem();
@@ -343,13 +366,13 @@ public class Gem {
         //List<Double> num1000 = num10000.subList(0, 1000);
         /*
         Pruebas de bondad 1000 numeros
-        */
+         */
         //System.out.println(gem.pruebachi2(num1000));
         //System.out.println(gem.poker2(num1000));
         //System.out.println(gem.poker3(num1000));
         /*
         Pruebas de bondad 10000 numeros
-        */
+         */
         //System.out.println(gem.pruebachi2(num10000));
         //System.out.println(gem.poker2(num10000));
         //System.out.println(gem.poker3(num10000));
