@@ -328,7 +328,7 @@ public class Gem {
         //trabajo con otras distribuciones - binomial
         //gem.binomial(1000);
         //trabajo con otras distribuciones - poisson
-        gem.poisson(1000);
+        //gem.poisson(1000);
         //List<Double> num10000 = gem.generarLista();
         //List<Double> num1000 = num10000.subList(0, 1000);
         /*
