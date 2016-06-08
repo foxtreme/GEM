@@ -349,33 +349,51 @@ public class Gem {
         }
         return data;
     }
-
     public static void main(String[] args) throws IOException {
 
-        //generando 10000 numeros aleatorios
+        
         double num = 0;
         Gem gem = new Gem();
         //trabajo con otras distribuciones - convolucion
-        //gem.convolucion(1000);
-        //gem.convolucion(10000);
+//        gem.convolucion(1000,0);//generador de Java
+//        gem.convolucion(10000,0);//generador de Java
+        
+//        gem.convolucion(1000,1);//generador Propio
+//        gem.convolucion(10000,1);//generador Propio
+        
         //trabajo con otras distribuciones - binomial
-        //gem.binomial(1000);
+//        gem.binomial(1000,0);//generador de Java
+//        gem.binomial(10000,0);//generador de Java
+        
+//        gem.binomial(1000,1);//generador Propio
+//        gem.binomial(10000,1);//generador Propio
+        
         //trabajo con otras distribuciones - poisson
-        //gem.poisson(1000);
-        //List<Double> num10000 = gem.generarLista();
-        //List<Double> num1000 = num10000.subList(0, 1000);
-        /*
-        Pruebas de bondad 1000 numeros
-         */
-        //System.out.println(gem.pruebachi2(num1000));
-        //System.out.println(gem.poker2(num1000));
-        //System.out.println(gem.poker3(num1000));
-        /*
-        Pruebas de bondad 10000 numeros
-         */
-        //System.out.println(gem.pruebachi2(num10000));
-        //System.out.println(gem.poker2(num10000));
-        //System.out.println(gem.poker3(num10000));
-    }
+//        gem.poisson(1000,0);//generador de Java
+//        gem.poisson(10000,0);//generador de Java
 
+//        gem.poisson(1000,1);//generador propio
+//        gem.poisson(10000,1);//generador propio
+
+//        //----- Pruebas de Bondad -------- Chi^2 y Poker 
+
+//        List<Double> num10000 = gem.generarLista(0);//generador de Java
+//        List<Double> num1000 = num10000.subList(0, 1000);//generador de Java
+//        
+//        //List<Double> num10000 = gem.generarLista(1);//generador Propio
+//        //List<Double> num1000 = num10000.subList(1, 1000);//generador Propio
+//        /*
+//        Pruebas de bondad 1000 numeros
+//         */
+//        System.out.println(gem.pruebachi2(num1000));
+//        System.out.println(gem.poker2(num1000));
+//        System.out.println(gem.poker3(num1000));
+//        /*
+//        Pruebas de bondad 10000 numeros
+//         */
+//        System.out.println(gem.pruebachi2(num10000));
+//        System.out.println(gem.poker2(num10000));
+//        System.out.println(gem.poker3(num10000));
+    }
+    
 }
